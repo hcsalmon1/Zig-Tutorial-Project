@@ -5,6 +5,7 @@ const show_output = @import("output.zig");
 const show_variables = @import("Variables.zig");
 const show_loops = @import("loops.zig");
 const show_allocators = @import("allocation.zig");
+const show_branching = @import("branching.zig");
 const show_input = @import("input.zig");
 const show_comptime = @import("comptime.zig");
 const show_pointers = @import("pointers.zig");
@@ -24,8 +25,9 @@ pub fn main() void
 	show_functions.run();
 	//show_variables.run();
 	//show_structs.run();
+	//show_branching.run();
 	//show_input.run();
-  //show_output.run();
+	//show_output.run();
 	//show_loops.run();
 	//show_errors.run();
 	//show_allocators.run();
