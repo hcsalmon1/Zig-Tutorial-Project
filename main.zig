@@ -38,7 +38,7 @@ pub fn main() void
 	var user_input: [60]u8 = undefined; 
 	const stdin = std.io.getStdIn().reader();
 
-	Print("Press enter to exit\n", .{}); 
+	print("Press enter to exit\n", .{}); 
 
 	const result: []const u8 = stdin.readUntilDelimiter(&user_input, '\n') catch "____"; 
     _ = result;
