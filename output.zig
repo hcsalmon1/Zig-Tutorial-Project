@@ -19,7 +19,7 @@ pub fn run() void
 fn debugPrint() void
 {
     print("Debug Print:\n", .{});
-    //debug.print allows you to print without a variable, however will not be included in release.
+    //debug.print allows you to print without a variable
 
     //debug.print requires two parameters
     //if you don't want to use any parameters then write .{} as the second parameter, as below.
