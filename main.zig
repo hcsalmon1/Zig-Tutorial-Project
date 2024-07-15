@@ -7,6 +7,7 @@ const show_loops = @import("loops.zig");
 const show_allocators = @import("allocation.zig");
 const show_branching = @import("branching.zig");
 const show_input = @import("input.zig");
+const show_floats = @import("Floats.zig");
 const show_comptime = @import("comptime.zig");
 const show_pointers = @import("pointers.zig");
 const show_functions = @import("functions.zig");
@@ -28,6 +29,7 @@ pub fn main() void
 	//show_branching.run();
 	//show_input.run();
 	//show_output.run();
+	//show_floats.run();
 	//show_loops.run();
 	//show_errors.run();
 	//show_allocators.run();
