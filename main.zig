@@ -14,6 +14,7 @@ const show_functions = @import("functions.zig");
 const show_arrayLists = @import("arrayLists.zig");
 const show_structs = @import("structs.zig");
 const show_errors = @import("errors.zig");
+const openingFiles = @import("OpeningFiles.zig");
 
 pub fn main() void
 {
@@ -36,7 +37,7 @@ pub fn main() void
 	//show_arrayLists.run();
 	//show_pointers.run();
 	//show_comptime.run();
-
+	//openingFiles.run();
 
 	//This stops the program closing instantly until you press enter.
 	var user_input: [60]u8 = undefined; 
