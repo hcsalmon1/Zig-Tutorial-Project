@@ -88,41 +88,41 @@ fn fillLines(lines:*ArrayListAligned([]const u8,null), buffer:[]const u8) void
 
 pub fn run() void 
 {
-	    const allocator = std.heap.page_allocator;
+	const allocator = std.heap.page_allocator;
 	
-	    // Open the file
-	    const file = std.fs.cwd().openFile("people.txt", .{}) catch unreachable;
-	    defer file.close();
+	// Open the file
+	const file = std.fs.cwd().openFile("people.txt", .{}) catch unreachable;
+	defer file.close();
 
-	    // Read the entire file into a buffer
-	    const file_size:u64 = file.getEndPos() catch unreachable;
-	    const buffer:[]u8 = allocator.alloc(u8, file_size) catch unreachable;
-	    defer allocator.free(buffer);
+	// Read the entire file into a buffer
+	const file_size:u64 = file.getEndPos() catch unreachable;
+	const buffer:[]u8 = allocator.alloc(u8, file_size) catch unreachable;
+	defer allocator.free(buffer);
 	
-	    _ = file.readAll(buffer) catch unreachable;
+	_ = file.readAll(buffer) catch unreachable;
 	
-	    var lines:ArrayListAligned([]const u8, null) = std.ArrayList([]const u8).init(allocator);
-	    defer lines.deinit();
-	    fillLines(&lines, buffer);
+	var lines:ArrayListAligned([]const u8, null) = std.ArrayList([]const u8).init(allocator);
+	defer lines.deinit();
+	fillLines(&lines, buffer);
 	
-	    // Parse each line
-	    var people = std.ArrayList(Person).init(allocator);
-	    defer people.deinit();
+	// Parse each line
+	var people = std.ArrayList(Person).init(allocator);
+	defer people.deinit();
 
 	const LINE_COUNT:usize = lines.items.len;
 	//Loop and parse each line
 	for (0..LINE_COUNT) |i| 
 	{
-        	//Get the data
-        	const person:Person = parseLine(lines.items[i]) catch unreachable;
-        	//add it to the list
-        	people.append(person) catch unreachable;
-    	}
-
-    	// Output the parsed data
-    	for (people.items) |person| 
+		//Get the data
+	        const person:Person = parseLine(lines.items[i]) catch unreachable;
+	        //add it to the list
+	        people.append(person) catch unreachable;
+	}
+	
+	// Output the parsed data
+	for (people.items) |person| 
 	{
-        	std.debug.print("Name: {s},\nAge: {},\nEmail: {s}\n\n",
-            	.{ person.name, person.age, person.email });
-    	}
+		std.debug.print("Name: {s},\nAge: {},\nEmail: {s}\n\n",
+	        .{ person.name, person.age, person.email });
+	}
 }
