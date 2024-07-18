@@ -61,7 +61,7 @@ pub const TrackingAllocator = struct
         	self.allocator.destroy(memory);
     	}
 
-	//debug will print the amount allocated
+	//debug will print the amount allocated and freed
     	pub fn debugAlloc(self: *TrackingAllocator, comptime T: type, n: usize) ![]T 
 	{
         	const ALLOCATED_BYTES_BEFORE:usize = self.allocated_bytes;
