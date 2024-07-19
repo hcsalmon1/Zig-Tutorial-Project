@@ -66,7 +66,7 @@ pub const TrackingAllocator = struct
 	{
         	const ALLOCATED_BYTES_BEFORE:usize = self.allocated_bytes;
         	const slice:[]T = try self.allocator.alloc(T, size);
-        	self.allocated_bytes += @sizeOf(T) * zie;
+        	self.allocated_bytes += @sizeOf(T) * size;
         	const JUST_ALLOCATED = self.allocated_bytes - ALLOCATED_BYTES_BEFORE;
         	std.debug.print("allocated {}, current bytes: {}\n",.{JUST_ALLOCATED, self.allocated_bytes});
         	return slice;
