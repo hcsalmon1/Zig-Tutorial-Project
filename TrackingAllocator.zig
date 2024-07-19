@@ -62,11 +62,11 @@ pub const TrackingAllocator = struct
     	}
 
 	//debug will print the amount allocated and freed
-    	pub fn debugAlloc(self: *TrackingAllocator, comptime T: type, n: usize) ![]T 
+    	pub fn debugAlloc(self: *TrackingAllocator, comptime T: type, size: usize) ![]T 
 	{
         	const ALLOCATED_BYTES_BEFORE:usize = self.allocated_bytes;
-        	const slice:[]T = try self.allocator.alloc(T, n);
-        	self.allocated_bytes += @sizeOf(T) * n;
+        	const slice:[]T = try self.allocator.alloc(T, size);
+        	self.allocated_bytes += @sizeOf(T) * zie;
         	const JUST_ALLOCATED = self.allocated_bytes - ALLOCATED_BYTES_BEFORE;
         	std.debug.print("allocated {}, current bytes: {}\n",.{JUST_ALLOCATED, self.allocated_bytes});
         	return slice;
