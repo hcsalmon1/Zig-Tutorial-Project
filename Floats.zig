@@ -105,11 +105,11 @@ fn convertWeight() void
 	const trimmedInput:[]const u8 = std.mem.trim(u8, userInput, " \t\r\n");
 	
 	//parse the input to a float
-    const weight_pounds:f64 = fmt.parseFloat(f64, trimmedInput) catch |err| 
+    	const weight_pounds:f64 = fmt.parseFloat(f64, trimmedInput) catch |err| 
 	{
-        std.debug.print("   Error parsing float: {}\n", .{err});
-        return;
-    };
+        	std.debug.print("   Error parsing float: {}\n", .{err});
+        	return;
+    	};
 	
 	const KILOGRAM_CONVERSION:f64 = weight_pounds * KGS_IN_A_POUND;
 	
