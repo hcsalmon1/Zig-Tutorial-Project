@@ -2,13 +2,13 @@
 const std = @import("std");
 const print = std.debug.print;
 const fmt = std.fmt;
+const FixedBufferAllocator = std.heap.FixedBufferAllocator;
+const Allocator = std.mem.Allocator;
 
 pub fn run() void
 {
 	//floatTypes();
-	
-	//printFloats();
-	
+	//convertingFloats();
 	convertWeight();
 }
 
@@ -24,70 +24,88 @@ fn floatTypes() void
 	//These are fundamentally the same and only change the accuracy
 	//The less bits the less accurate
 	
+	//If you print like this then you will get scientific format
+	print("Printing scientific:\n",.{});
 	print("   decimal1: {}\n", .{decimal1});
 	print("   decimal2: {}\n", .{decimal2});	
 	print("   decimal3: {}\n", .{decimal3});	
 	print("   decimal4: {}\n", .{decimal4});	
-	print("   decimal5: {}\n", .{decimal5});
-		
+	print("   decimal5: {}\n\n", .{decimal5});
+	
+	//If you want to print in decimal format then you use '{d}'
+	print("Printing regular:\n",.{});
+	print("   decimal1: {d}\n", .{decimal1});
+	print("   decimal2: {d}\n", .{decimal2});	
+	print("   decimal3: {d}\n", .{decimal3});	
+	print("   decimal4: {d}\n", .{decimal4});	
+	print("   decimal5: {d}\n", .{decimal5});
+	
+	//If you want to specify the amount of decimal places then you use '{d:.5}
+	//This will show 5 decimal places
+	print("\nChoosing decimal place count:\n",.{});
+	print("   decimal2: {d}\n", .{decimal2});	
+	print("   decimal2: {d:.2}\n", .{decimal2});	
 }
 
-fn printFloats() void
+fn convertingFloats() void
 {
-	//By default floats are printed in scientific notation
-	//So you will have an 'e0' at the end.
+	print("\nConverting floats:\n",.{});
+	const number:i32 = 100;
+	var decimal:f32 = number;
+	const safer_conversion:f32 = @floatFromInt(number);
 	
-	const decimal1:f64 = 1.111111;
+	print("   number: {}\n",.{number});
+	print("   decimal: {d}\n",.{decimal});
+	print("   safer_conversion: {d}\n",.{safer_conversion});
 	
-	//To print them in decimal form we will call 'format' from 'std.fmt'.
-	//At the top we import 'fmt' as 'std.fmt'
-	
-	print("   Printing float in decimal format:\n", .{});
-	print("   ", .{}); //for spaces
-	
-	printFloat6digits(decimal1); //we make a function to make it easier
-	
-}
+	decimal += 0.01;
+	const converted_decimal:i32 = @intFromFloat(decimal);
+	//You can't just convert directly to an int:
+	//const error_conversion:i32 = decimal;
+	//_ = error_conversion;
 
-fn printFloat6digits(input:f64) void
-{
-	const stdout = std.io.getStdOut().writer(); //we need to send a writer to the function
-	
-	fmt.format
-	(
-		stdout, //the writer
-		"{d:.6}", //the format of float
-		.{input} //the variable to show
-	) catch unreachable;
-	print("\n",.{});
-	//This will print a float in decimal format
-}
+	print("   decimal: {d}\n",.{decimal});
+	print("   converted_decimal: {}\n",.{converted_decimal});
 
+	//To convert to a small float type we use '@floatCast'
+	const decimal_f128:f128 = 1.123456789012345678;
+	const decimal_f80:f80 = @floatCast(decimal_f128);
+	const decimal_f64:f64 = @floatCast(decimal_f80);
+	const decimal_f32:f32 = @floatCast(decimal_f64);
+	const decimal_f16:f16 = @floatCast(decimal_f32);
+
+	print("\n   decimal_f128: {d}\n",.{decimal_f128});
+	print("   decimal_f80: {d}\n",.{decimal_f80});
+	print("   decimal_f64: {d}\n",.{decimal_f64});
+	print("   decimal_f32: {d}\n",.{decimal_f32});
+	print("   decimal_f16: {d}\n",.{decimal_f16});	
+}
 
 fn convertWeight() void
 {
+	print("\nConverting weight:\n",.{});
+	
 	//Here we will get input (number of pounds) from the user and parse it.
 	//Then we will convert it to kilograms
 	
 	const KGS_IN_A_POUND:f64 = 0.453592;
-	const stdout = std.io.getStdOut().writer();
 	const stdin = std.io.getStdIn().reader();
 	
 	//Get the allocator and reader
 	var buffer: [100]u8 = undefined; 
-	var fba = std.heap.FixedBufferAllocator.init(&buffer);
-	const fba_allocator = fba.allocator();
+	var fba:FixedBufferAllocator = FixedBufferAllocator.init(&buffer);
+	const fba_allocator:Allocator = fba.allocator();
 
 	//Get the input
 	print("   What is your weight in pounds?\n   ", .{});
-	const userInput = stdin.readUntilDelimiterAlloc(fba_allocator, '\n', 100,) catch "invalid input\n"; 
+	const userInput:[]const u8 = stdin.readUntilDelimiterAlloc(fba_allocator, '\n', 100,) catch "invalid input\n"; 
 	defer fba_allocator.free(userInput);
 	
 	//Trim the input
-	const trimmedInput = std.mem.trim(u8, userInput, " \t\r\n");
+	const trimmedInput:[]const u8 = std.mem.trim(u8, userInput, " \t\r\n");
 	
 	//parse the input to a float
-    const weight_pounds = fmt.parseFloat(f64, trimmedInput) catch |err| 
+    const weight_pounds:f64 = fmt.parseFloat(f64, trimmedInput) catch |err| 
 	{
         std.debug.print("   Error parsing float: {}\n", .{err});
         return;
@@ -95,13 +113,6 @@ fn convertWeight() void
 	
 	const KILOGRAM_CONVERSION:f64 = weight_pounds * KGS_IN_A_POUND;
 	
-	print("   pounds ", .{});
-	//Print in decimal format:
-	fmt.format(stdout, "{d:.2}", .{weight_pounds}) catch unreachable;
+	print("   pounds {d:.2} = {d:.6} kgs\n", .{weight_pounds, KILOGRAM_CONVERSION});
 	
-	print(" = ", .{});
-	//Print in decimal format:	
-	fmt.format(stdout, "{d:.6}", .{KILOGRAM_CONVERSION}) catch unreachable;
-	
-	print(" kgs\n", .{});
 }
