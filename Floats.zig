@@ -107,7 +107,7 @@ fn convertWeight() void
 	//parse the input to a float
     	const weight_pounds:f64 = fmt.parseFloat(f64, trimmedInput) catch |err| 
 	{
-        	std.debug.print("   Error parsing float: {}\n", .{err});
+        	print("   Error parsing float: {}\n", .{err});
         	return;
     	};
 	
