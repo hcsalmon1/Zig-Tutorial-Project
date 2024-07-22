@@ -120,8 +120,8 @@ pub const TrackingAllocator = struct
 
     	pub fn printMegaBytes(self: TrackingAllocator) void 
     	{
-        	const ALLOCATED_BYTES_U64: f64 = @floatFromInt(self.allocated_bytes);
-        	const SIZE_IN_MEGABYTES: f64 = ALLOCATED_BYTES_U64 / @as(f64, BYTES_IN_MEGABYTE);
+        	const ALLOCATED_BYTES_F64: f64 = @floatFromInt(self.allocated_bytes);
+        	const SIZE_IN_MEGABYTES: f64 = ALLOCATED_BYTES_F64 / @as(f64, BYTES_IN_MEGABYTE);
 
 	    	std.debug.print("     Memory: {d:.3} MB\n",.{SIZE_IN_MEGABYTES});
     	}
