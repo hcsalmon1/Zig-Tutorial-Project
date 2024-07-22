@@ -124,14 +124,7 @@ pub const TrackingAllocator = struct
         	const SIZE_IN_MEGABYTES: f64 = ALLOCATED_BYTES_U64 / @as(f64, BYTES_IN_MEGABYTE);
 
 	    	const stdout = std.io.getStdOut().writer(); //we need to send a writer to the function
-	    	std.debug.print("     Memory: ",.{});
-        	std.fmt.format
-	    	(
-		    stdout, //the writer
-		    "{d:.3}", //the format of float
-		    .{SIZE_IN_MEGABYTES} //the variable to show
-	    	) catch unreachable;	
-        	std.debug.print(" MB\n",.{});
+	    	std.debug.print("     Memory: {d:.3} MB\n",.{SIZE_IN_MEGABYTES});
     	}
 
 };
