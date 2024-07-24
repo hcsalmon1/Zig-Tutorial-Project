@@ -25,10 +25,9 @@ pub fn printSizeInBytes(comptime T: type, number: usize) void
 
 pub const TrackingAllocator = struct 
 {
-    	allocator: *std.mem.Allocator,
+        allocator: *std.mem.Allocator,
     	allocated_bytes: usize,
 
-	//alloc returns a slice of the type
     	pub fn alloc(self:*TrackingAllocator, comptime T: type, n: usize) ![]T 
 	{
         	const slice:[]T = try self.allocator.alloc(T, n);
@@ -36,7 +35,6 @@ pub const TrackingAllocator = struct
         	return slice;
     	}
 
-	//create returns a pointer to one type
     	pub fn create(self:*TrackingAllocator, comptime T: type) !*T 
 	{
         	const memory:*T = try self.allocator.create(T);
@@ -44,7 +42,6 @@ pub const TrackingAllocator = struct
         	return memory;
     	}
 
-	//free clears a slice that was allocated
     	pub fn free(self: *TrackingAllocator, comptime T: type, slice: []T) void 
 	{
         	if (slice.len > 0) 
@@ -53,20 +50,18 @@ pub const TrackingAllocator = struct
             		self.allocator.free(slice);
         	}
     	}
-
-	//destroy clears one variable
-    	pub fn destroy(self: *TrackingAllocator, comptime T: type, memory: T) void 
+	
+    	pub fn destroy(self: *TrackingAllocator, comptime T: type, memory: *T) void 
 	{
         	self.allocated_bytes -= @sizeOf(T);
         	self.allocator.destroy(memory);
     	}
 
-	//debug will print the amount allocated and freed
-    	pub fn debugAlloc(self: *TrackingAllocator, comptime T: type, size: usize) ![]T 
+    	pub fn debugAlloc(self: *TrackingAllocator, comptime T: type, n: usize) ![]T 
 	{
         	const ALLOCATED_BYTES_BEFORE:usize = self.allocated_bytes;
-        	const slice:[]T = try self.allocator.alloc(T, size);
-        	self.allocated_bytes += @sizeOf(T) * size;
+        	const slice:[]T = try self.allocator.alloc(T, n);
+        	self.allocated_bytes += @sizeOf(T) * n;
         	const JUST_ALLOCATED = self.allocated_bytes - ALLOCATED_BYTES_BEFORE;
         	std.debug.print("allocated {}, current bytes: {}\n",.{JUST_ALLOCATED, self.allocated_bytes});
         	return slice;
@@ -76,8 +71,8 @@ pub const TrackingAllocator = struct
 	{
         	if (slice.len > 0) 
 		{
-            		const ALLOCATED_BYTES_BEFORE: usize = self.allocated_bytes;
-            		self.allocated_bytes -= @sizeOf(T) * slice.len;
+        	    	const ALLOCATED_BYTES_BEFORE: usize = self.allocated_bytes;
+			self.allocated_bytes -= @sizeOf(T) * slice.len;
             		self.allocator.free(slice);
             		const BYTES_FREED:usize = ALLOCATED_BYTES_BEFORE - self.allocated_bytes;
             		std.debug.print("freed {} bytes, current bytes: {}\n",.{BYTES_FREED, self.allocated_bytes});
@@ -94,7 +89,7 @@ pub const TrackingAllocator = struct
         	return memory;
     	}
 
-    	pub fn debugDestroy(self: *TrackingAllocator, comptime T: type, memory: T) void 
+    	pub fn debugDestroy(self: *TrackingAllocator, comptime T: type, memory: *T) void 
 	{
         	const ALLOCATED_BYTES_BEFORE: usize = self.allocated_bytes;
         	self.allocated_bytes -= @sizeOf(T);
@@ -120,10 +115,10 @@ pub const TrackingAllocator = struct
 
     	pub fn printMegaBytes(self: TrackingAllocator) void 
     	{
-        	const ALLOCATED_BYTES_F64: f64 = @floatFromInt(self.allocated_bytes);
-        	const SIZE_IN_MEGABYTES: f64 = ALLOCATED_BYTES_F64 / @as(f64, BYTES_IN_MEGABYTE);
+        	const ALLOCATED_BYTES_U64: f64 = @floatFromInt(self.allocated_bytes);
+        	const SIZE_IN_MEGABYTES: f64 = ALLOCATED_BYTES_U64 / @as(f64, BYTES_IN_MEGABYTE);
 
-	    	std.debug.print("     Memory: {d:.3} MB\n",.{SIZE_IN_MEGABYTES});
+	    	std.debug.print("     Memory: {d:.3}",.{SIZE_IN_MEGABYTES});
     	}
 
 };
