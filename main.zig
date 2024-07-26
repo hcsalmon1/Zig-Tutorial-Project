@@ -16,6 +16,7 @@ const show_structs = @import("structs.zig");
 const show_errors = @import("errors.zig");
 const openingFiles = @import("OpeningFiles.zig");
 const show_threading = @import("threading.zig");
+const show_optionals = @import("optionals.zig");
 
 
 pub fn main() void
@@ -41,6 +42,7 @@ pub fn main() void
 	//show_comptime.run();
 	//openingFiles.run();
 	//show_threading.run();
+	//show_optionals.run();
 
 	//This stops the program closing instantly until you press enter.
 	var user_input: [60]u8 = undefined; 
