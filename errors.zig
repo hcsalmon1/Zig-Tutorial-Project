@@ -18,6 +18,8 @@ pub fn run() void
 
 	print("\n   Showing array errors:\n", .{});
 	showGlobalArrayErrors();
+	
+	showingErrorLists();
 }
 
 //Error syntax:
@@ -30,6 +32,10 @@ pub fn run() void
 //			catch |err|			- if there is an error do something with it, like print
 //			{
 
+//			}
+
+//			catch |err| switch (err) {		- makes a switch for each error value, to do something in each case
+	
 //			}
 
 //			if (result) |res| 	- if it's not an error, do something with this variable
@@ -103,7 +109,7 @@ fn showGlobalArrayErrors() void
 {
 	for (80..110) |index|
 	{
-		const value = GetArrayIndex(index);
+		const value = getArrayIndex(index);
 		if (value) |val| //if the result wasn't an error
 		{
 			print("   value at {} = {}\n", .{index, val});
@@ -115,7 +121,7 @@ fn showGlobalArrayErrors() void
 	}
 }
 
-fn GetArrayIndex(index:usize) ArrayError!i32
+fn getArrayIndex(index:usize) ArrayError!i32
 {
 	if (index >= GLOBAL_ARRAY_LENGTH)
 	{
@@ -124,3 +130,19 @@ fn GetArrayIndex(index:usize) ArrayError!i32
 	return global_number_array[index];
 }
 
+fn showingErrorLists() void
+{
+	//To get the list of possible errors you simply use catch directly and an empty switch:
+	//Uncomment to see:
+	
+	//const number_as_text:[]const u8 = "10";
+	//const age:u8 = std.fmt.parseInt(u8, number_as_text, 0) catch |err| switch (err)
+	//{
+		
+	//};
+	//_ = age;
+	
+	//As switches need to cover all possibilities the compiler will show you all
+	//the possible errors that could come from this function.
+
+}
