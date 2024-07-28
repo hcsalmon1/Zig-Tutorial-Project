@@ -6,5 +6,5 @@ instructions:
 -Open up a powershell or terminal in that folder
 -Run the command: zig run main.zig
 
-In the main file I have links to the other files. Simply comments and uncomment each section to view
+In the main file I have links to the other files. Simply comment and uncomment each section to view
 the results from each section.
