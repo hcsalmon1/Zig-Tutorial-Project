@@ -269,7 +269,7 @@ pub fn testList() void
     testLinkedList(&allocation_tracker);
 }
 
-pub fn testLinkedList(allocation_tracker:*TrackingAllocator) void
+fn testLinkedList(allocation_tracker:*TrackingAllocator) void
 {
 
     var list:LinkedList(u64) = LinkedList(u64){.source_node = null, .length = 0};
