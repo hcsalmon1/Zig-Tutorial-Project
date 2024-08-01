@@ -19,7 +19,7 @@ fn getUserInput() void
     	const BUFFER_SIZE = 100;
 	var buffer: [BUFFER_SIZE]u8 = undefined; 
 	var fba = std.heap.FixedBufferAllocator.init(&buffer); 
-	const fba_allocator = fba.allocator(); //look at allocation.zig for more infor
+	const fba_allocator = fba.allocator(); //look at allocation.zig for more info
 	const stdin = std.io.getStdIn().reader(); //this gets a way to read input from the OS
 
     	print("   Write something: ", .{}); //ask for input
