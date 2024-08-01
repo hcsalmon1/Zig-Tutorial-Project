@@ -354,27 +354,12 @@ fn printFloats() void
 	
 	const decimal1:f64 = 1.111111;
 	
-	//To print them in decimal form we will call 'format' from 'std.fmt'.
-	//At the top we import 'fmt' as 'std.fmt'
+	//To print them in decimal form we will call we have to use {d}
 	
-	print("   ", .{}); //for spaces
+	print("   {d}\n",.{decimal1});
+	//To specify the amount of decimal places use: {d:.2} makes 2 decimal places
+	print("   {d:.6}\n",.{decimal1});
 	
-	printFloat6digits(decimal1); //we make a function to make it easier
-	
-}
-
-fn printFloat6digits(input:f64) void
-{
-	const stdout = std.io.getStdOut().writer(); //we need to send a writer to the function
-	
-	fmt.format
-	(
-		stdout, //the writer
-		"{d:.6}", //the format of float
-		.{input} //the variable to show
-	) catch unreachable;
-	print("\n",.{});
-	//This will print a float in decimal format
 }
 
 fn convertWeight() void
