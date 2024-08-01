@@ -96,7 +96,7 @@ fn showIfStatements() void
 
 	}
 
-	if (do_something == false || number != 10) // - no
+	//if (do_something == false || number != 10) // - no
 
 	if (do_something == false or number != 10) // - yes
 	{
