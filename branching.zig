@@ -89,19 +89,25 @@ fn showIfStatements() void
 		print("Why isn't it possible? It's just not!\n",.{});
 	}
 
-	//You can't have multiple conditions
+	//To have multiple conditions you use 'and' or 'or'
 
 	const number = 10;
 
 	//if (do_something == true && number == 10) // - no 
 	
-	if (do_something == true)
+	if (do_something == true and number == 10) // - yes
 	{
-		if (number == 10) 
-		{
-			//yes
-		}
+
 	}
+
+	if (do_something == false || number != 10) // - no
+
+	if (do_something == false or number != 10) // - yes
+	{
+
+	}
+
+	//'&&' and '||' are not used as they can be ambigiuous with '&' and '|' which are bitwise operands.
 
 	//the condition needs to be a bool value:
 
