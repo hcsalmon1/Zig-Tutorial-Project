@@ -9,7 +9,7 @@ pub fn run() void
 	print("Getting Input\n",.{});
 	
 	getUserInput();
-    parsingInput();
+    	parsingInput();
 }
 
 fn getUserInput() void
