@@ -85,10 +85,10 @@ fn optionalPointersYoDawg() void
 	//		.? unwraps, .* dereferences.
 	//This can lead to memes like this:
 	
-    const number: ?i32 = 1;
-    const number_pointer: ?*const ?i32 = &number;
-    const number_pointer_pointer: ?*const ?*const ?i32 = &number_pointer;
-    const number_pointer_pointer_pointer: ?*const ?*const ?*const ?i32 = &number_pointer_pointer;
+    	const number: ?i32 = 1;
+    	const number_pointer: ?*const ?i32 = &number;
+    	const number_pointer_pointer: ?*const ?*const ?i32 = &number_pointer;
+    	const number_pointer_pointer_pointer: ?*const ?*const ?*const ?i32 = &number_pointer_pointer;
 
 	std.debug.print("number_pointer: {}\n",.{number_pointer.?.*.?});
 	std.debug.print("number_pointer_pointer: {}\n",.{number_pointer_pointer.?.*.?.*.?});
