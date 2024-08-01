@@ -209,8 +209,8 @@ fn creatingArrays() void
 	const multi_dimensional_array = [3][3]i32
 	{
 		[_]i32{0, 1, 2},
-        [_]i32{3, 4, 5},
-        [_]i32{6, 7, 8},
+        	[_]i32{3, 4, 5},
+        	[_]i32{6, 7, 8},
 	}; 
 	
 	print("\n\n   Multidimensional array:\n", .{});
