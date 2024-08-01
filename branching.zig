@@ -23,16 +23,12 @@ pub fn run() void
 
 //			}
 
-//You can't have multiple conditions
+//To have multiple conditions 'use' and and 'or'
 //			if (true && false) - no
+//			if (true and false) - yes
 
-//			if (true)
-//			{
-//				if (false)
-//				{
-//					yes
-//				}
-//			}
+//			if (true || false) - no
+//			if (true or false) - yes
 
 //Statements must be a bool
 //			const number = 10;
