@@ -5,15 +5,13 @@ const fmt = std.fmt;
 const FixedBufferAllocator = std.heap.FixedBufferAllocator;
 const Allocator = std.mem.Allocator;
 
-pub fn run() void
-{
+pub fn run() void {
 	//floatTypes();
 	//convertingFloats();
 	convertWeight();
 }
 
-fn floatTypes() void
-{
+fn floatTypes() void {
 	print("Float Types:\n",.{});
 	//The float types
 	const decimal1:f16 = 1.1;
@@ -47,8 +45,7 @@ fn floatTypes() void
 	print("   decimal2: {d:.2}\n", .{decimal2});	
 }
 
-fn convertingFloats() void
-{
+fn convertingFloats() void {
 	print("\nConverting floats:\n",.{});
 	const number:i32 = 100;
 	var decimal:f32 = number;
@@ -81,35 +78,35 @@ fn convertingFloats() void
 	print("   decimal_f16: {d}\n",.{decimal_f16});	
 }
 
-fn convertWeight() void
-{
+fn convertWeight() void {
 	print("\nConverting weight:\n",.{});
 	
 	//Here we will get input (number of pounds) from the user and parse it.
 	//Then we will convert it to kilograms
 	
 	const KGS_IN_A_POUND:f64 = 0.453592;
-	const stdin = std.io.getStdIn().reader();
 	
 	//Get the allocator and reader
 	var buffer: [100]u8 = undefined; 
 	var fba:FixedBufferAllocator = FixedBufferAllocator.init(&buffer);
 	const fba_allocator:Allocator = fba.allocator();
 
+	var stdin_reader = std.fs.File.stdin().reader(&buffer);
+	const stdin = &stdin_reader.interface;
+
 	//Get the input
 	print("   What is your weight in pounds?\n   ", .{});
-	const userInput:[]const u8 = stdin.readUntilDelimiterAlloc(fba_allocator, '\n', 100,) catch "invalid input\n"; 
+	const userInput:[]const u8 = stdin.takeDelimiterExclusive('\n') catch "invalid input\n"; 
 	defer fba_allocator.free(userInput);
 	
 	//Trim the input
 	const trimmedInput:[]const u8 = std.mem.trim(u8, userInput, " \t\r\n");
 	
 	//parse the input to a float
-    	const weight_pounds:f64 = fmt.parseFloat(f64, trimmedInput) catch |err| 
-	{
-        	print("   Error parsing float: {}\n", .{err});
-        	return;
-    	};
+	const weight_pounds:f64 = fmt.parseFloat(f64, trimmedInput) catch |err| {
+		print("   Error parsing float: {}\n", .{err});
+		return;
+	};
 	
 	const KILOGRAM_CONVERSION:f64 = weight_pounds * KGS_IN_A_POUND;
 	

@@ -10,78 +10,69 @@ pub fn run() void
 
 //if syntax:
 //same as c:
-//			if (true)
-//			{
+//   if (true)
+//   {
 
-//			}
-//			else if (false)
-//			{
+//   }
+//   else if (false)
+//   {
 
-//			}
-//			else
-//			{
+//   }
+//   else
+//  {
 
-//			}
+//  }
 
 //To have multiple conditions 'use' and and 'or'
-//			if (true && false) - no
-//			if (true and false) - yes
+//   if (true && false) - no
+//   if (true and false) - yes
 
-//			if (true || false) - no
-//			if (true or false) - yes
+//   if (true || false) - no
+//   if (true or false) - yes
 
 //Statements must be a bool
-//			const number = 10;
-//			if (number) - no
+//   const number = 10;
+//   if (number) - no
 
-//			if (number == 10) - yes
+//   if (number == 10) - yes
 
 //Switch syntax:
-//			switch (VARIABLE) 
-//			{
-//				1 => ,
-//				2 => ,
-//				3 => ,
-//			}
-//			'=>' after the value 
-//			',' separate each case
+//   switch (VARIABLE) {
+//     1 => ,
+//     2 => ,
+//     3 => ,
+//   }
+//   '=>' after the value 
+//   ',' separate each case
 
-//			const result = switch (VARIABLE)
-//			{
-//				1 => 2,
-//				2 => 3,
-//				else => 4, //default case
-//			}
-//			This switch will return an integer
+//   const result = switch (VARIABLE) {
+//          1 => 2,
+//          2 => 3,
+//          else => 4, //default case
+//    }
+//    This switch will return an integer
 
-//			0...100 => , //case will be a range between two numbers
+//   0...100 => , //case will be a range between two numbers
 
-//			0, 1, 2 => , //case will be the three numbers
+//   0, 1, 2 => , //case will be the three numbers
 
 
-fn showIfStatements() void
-{
+fn showIfStatements() void {
 	//If statements are the same as most languages
 
 	var do_something:bool = true;
 
-	if (do_something == true) 
-	{
+	if (do_something == true) {
 		print("   first if: 'do something' is true\n",.{});
 	}
 
 	do_something = false;
 
-	if (do_something == true) 
-	{
+	if (do_something == true) {
 		print("   second if: 'do something' is true\n",.{});
-	}
-	else if (do_something == false) 
-	{
+	} else if (do_something == false) {
 		print("   second if: 'do something' is false\n",.{});
-	}
-	else 
-	{
+	} else  {
 		print("Why isn't it possible? It's just not!\n",.{});
 	}
 
@@ -91,15 +82,13 @@ fn showIfStatements() void
 
 	//if (do_something == true && number == 10) // - no 
 	
-	if (do_something == true and number == 10) // - yes
-	{
+	if (do_something == true and number == 10) { // - yes
 
 	}
 
 	//if (do_something == false || number != 10) // - no
 
-	if (do_something == false or number != 10) // - yes
-	{
+	if (do_something == false or number != 10) { // - yes
 
 	}
 
@@ -109,21 +98,18 @@ fn showIfStatements() void
 
 	//if (number) // - no
 	
-	if (number == 10) // - yes 
-	{
+	if (number == 10) { // - yes 
 
 	}
 
 }
 
 
-fn println(message:[]const u8) void
-{
+fn println(message:[]const u8) void {
 	print("{s}\n", .{message});
 }
 
-const ColourType = enum
-{
+const ColourType = enum {
 	White,
 	Black,
 	DarkBlue,
@@ -135,22 +121,18 @@ const ColourType = enum
 	Yellow
 };
 
-const Colour = struct
-{
+const Colour = struct {
 	r:u8,
 	g:u8,
 	b:u8,
 };
 
-fn printColour(colour:Colour) void
-{
+fn printColour(colour:Colour) void {
 	print("Colour: {}, {}, {}\n", .{colour.r, colour.g, colour.b});
 }
 
-fn processNumber(number:u8) []const u8
-{
-	return switch (number)
-	{
+fn processNumber(number:u8) []const u8 {
+	return switch (number) {
 		0 => "number 0",
 		1 => "number 1",
 		2 => "number 2",
@@ -161,19 +143,16 @@ fn processNumber(number:u8) []const u8
 	};
 }
 
-fn showSwitches() void
-{
+fn showSwitches() void {
 	println("\nShow switches:\n");
 	var number:u8 = 0;
-	for (0..6) |_|
-	{
+	for (0..6) |_| {
 		number += 1;
 		print("   {s}\n", .{processNumber(number)});
 	}
 
 	const colour_choice = ColourType.Black;
-	const chosen_colour:Colour = switch (colour_choice)
-	{
+	const chosen_colour:Colour = switch (colour_choice) {
 		.White => 		Colour{.r=255, .g=255, .b=255},
 		.Black => 		Colour{.r=0, .g=0, .b=0},
 		.DarkBlue => 	Colour{.r=32, .g=40, .b=161},
@@ -190,8 +169,7 @@ fn showSwitches() void
 	
 	const user_age:u8 = 15;
 	
-	switch (user_age)
-	{
+	switch (user_age) {
 		0...17 => println("   Too young"),
 		18...59 => println("   Valid age"),
 		60...100 => println("   Too old!"),

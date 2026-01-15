@@ -5,8 +5,7 @@ const c = @cImport({
     @cInclude("stdio.h");
 });
 
-pub fn main() void 
-{
+pub fn main() void {
 	
     var base: c_int = undefined;
     var exp: c_int = undefined;
@@ -18,8 +17,7 @@ pub fn main() void
     _ = c.scanf("%d", &exp);
 	
 	
-    while (exp != @as(c_int, 0)) 
-	{
+    while (exp != @as(c_int, 0)) {
         _ = c.printf("Looping = %.0f\n", result);
         result *= @as(f64, @floatFromInt(base));
         exp -= @as(c_int, 1);

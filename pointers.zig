@@ -1,8 +1,7 @@
 const Std = @import("std");
 const Print = Std.debug.print;
 
-pub fn run() void
-{
+pub fn run() void {
 	Print("\nShowing Pointers:\n\n", .{});
 	showingPointers();
 	potentialPointerErrors();
@@ -11,21 +10,20 @@ pub fn run() void
 
 //Pointer syntax:
 
-//		const pointer_name1: *u8 - a mutable pointer to a 8 bit variable
-//		var pointer_name2: *u8 = &variable;
-//		const pointer_name: *const u8 - a constant pointer to a 8 bit variable
-//		var pointer_name2: *const u8
-//		slice_name: []u8 - A slice: a mutable pointer to an array of 8 bit variables, with the length included
-//		slice_name: []const u8 - A constant slice
-//		pointer_array_name: [*]u8 - An array of mutable pointers linking to 8 bit variables
-//		pointer_array_name: [*]const u8 - an array of constant pointers linking to 8 bit variables
-//		pointer_name - will show the memory address of the pointer
-//		pointer_name.* - dereference: will show the value stored at the memory address
-//		pointer_name.*. - accesses a member variable in the struct the pointer links to
+//const pointer_name1: *u8 - a mutable pointer to a 8 bit variable
+//var pointer_name2: *u8 = &variable;
+//const pointer_name: *const u8 - a constant pointer to a 8 bit variable
+//var pointer_name2: *const u8
+//slice_name: []u8 - A slice: a mutable pointer to an array of 8 bit variables, with the length included
+//slice_name: []const u8 - A constant slice
+//pointer_array_name: [*]u8 - An array of mutable pointers linking to 8 bit variables
+//pointer_array_name: [*]const u8 - an array of constant pointers linking to 8 bit variables
+//pointer_name - will show the memory address of the pointer
+//pointer_name.* - dereference: will show the value stored at the memory address
+//pointer_name.*. - accesses a member variable in the struct the pointer links to
 
 
-fn showingPointers() void
-{
+fn showingPointers() void {
 	
 	//Pointers work the same way as other languages
 	
@@ -99,13 +97,11 @@ fn showingPointers() void
 	
 }
 
-fn GetPointer() *i32 //we return a pointer to a 32 bit integer
-{
+fn GetPointer() *i32 { //we return a pointer to a 32 bit integer
 	var count:u8 = 0;
 	var numberPointer:*i32 = undefined;
 	
-	while (count < 5)
-	{
+	while (count < 5) {
 		var tempNumber:i32 = count;
 		numberPointer = &tempNumber; //we set the pointer to a temporary stack variable
 		count += 1;
@@ -116,41 +112,33 @@ fn GetPointer() *i32 //we return a pointer to a 32 bit integer
 	//You shouldn't return a pointer to a variable that might not exist in memory
 }
 
-fn potentialPointerErrors() void
-{
+fn potentialPointerErrors() void {
 	Print("\n   Potential Pointer Errors:\n",.{});
 	const numberPointer:*i32 = GetPointer(); //We get the pointer to a stack variable
 	
 	const numberPointerOptional:?*i32 = numberPointer; //To avoid potential errors we will convert it to an optional
 	//In Variables.zig you can see more information about optionals.
 
-	if (numberPointerOptional) |checkedPointer| //we check the optional to make sure it's not null
-	{
+	if (numberPointerOptional) |checkedPointer| { //we check the optional to make sure it's not null
 		Print("   Pointer wasn't null", .{});
 		Print("   value: {}\n", .{checkedPointer.*});
-	}
-	else
-	{
+	} else {
 		Print("   The pointer is null\n", .{});
 	}
 	//If you don't make this optional then you could get errors if the address you are pointing to
 	//doesn't exist anymore.
 }
 
-const User = struct
-{
+const User = struct {
 	name: []const u8, //slice, the equivalent of a string
 	age:u8,
 	admin:bool,
 };
 
 
-fn PrintUserArray_Slice(users:[]User) void //We pass the slice to the function
-{
-	for (users) |user|
-	{
-		Print("   Name: {s}, age: {}, admin: {}\n", 
-		.{
+fn PrintUserArray_Slice(users:[]User) void { //We pass the slice to the function
+	for (users) |user| {
+		Print("   Name: {s}, age: {}, admin: {}\n", .{
 			user.name, 
 			user.age, 
 			user.admin
@@ -158,11 +146,9 @@ fn PrintUserArray_Slice(users:[]User) void //We pass the slice to the function
 	}
 }
 
-fn pointingToObjects() void
-{
+fn pointingToObjects() void {
 	Print("\n   Pointing to objects:\n",.{});
-	var user1 = User //we create a user object
-	{ 
+	var user1 = User { //we create a user object
 		.name = "John Smith", 
 		.age = 30, 
 		.admin = true
@@ -176,8 +162,7 @@ fn pointingToObjects() void
 	
 	Print("\n   Slice to array:\n", .{});
 	
-	var users = [5]User
-	{
+	var users = [5]User {
 		User{ .name = "John Smith", .age = 30, .admin = true },
 		User{ .name = "Jimmy Jones", .age = 38, .admin = true },
 		User{ .name = "Mike Adams", .age = 32, .admin = false },
@@ -210,7 +195,6 @@ fn pointingToObjects() void
 	Print("\n   Pointer to arrays:\n", .{});
 	//What you can also do is create an array of pointers:
 
-	
 	const array: [3]u8 = [3]u8{1, 2, 3};
 	const arrayPointers: [*]const u8 = &array; //This is an array of pointers
 	//So we have a group of pointers together: { pointer1 = &array[0], pointer2 = &array[1], pointer3 = &array[2] }
@@ -220,8 +204,7 @@ fn pointingToObjects() void
 	//pointer arrays have no upper bound so the loop goes forever.
 	//Instead we use a for loop with the length
 	const arrayLength = array.len;
-	for (0..arrayLength) |index| //usize for the index
-	{
+	for (0..arrayLength) |index| { //usize for the index
 		Print("   {}, ", .{arrayPointers[index]});
 		//I have no idea why but we don't need to dereference array pointers.
 		//I guess it's not possible to see the memory address directly.

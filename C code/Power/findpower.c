@@ -8,8 +8,7 @@ int main()
     printf("Enter an exponent: ");
     scanf("%d", &exp);
 
-    while (exp != 0) 
-    {
+    while (exp != 0) {
         printf("Looping = %.0f\n", result);
         result *= base;
         exp -= 1;

@@ -5,37 +5,31 @@ const print = std.debug.print;
 
 //Comptime syntax:
 
-//			comptime		- makes a comptime variable, the value needs to be deterministic and known at compile time
-//			anytype			- the compiler works out the type
-//			type			- placeholder for a type of variable: i8, u8, bool etc. Could be any
-//			comptime var	- a mutable variable that is possible to determine as compile time
+//   comptime - makes a comptime variable, the value needs to be deterministic and known at compile time
+//   anytype  - the compiler works out the type
+//   type     - placeholder for a type of variable: i8, u8, bool etc. Could be any
+//   comptime var - a mutable variable that is possible to determine as compile time
 
 
-const AddingError = error 
-{
+const AddingError = error {
 	Overflow,
 };
 
-fn max(comptime T: type, a: T, b:T) T
-{
-	if (a > b)
-	{
+fn max(comptime T: type, a: T, b:T) T {
+	if (a > b) {
 		return a;
 	}
 	return b;
 }
 
-fn min(comptime T: type, a: T, b:T) T
-{
-	if (a < b)
-	{
+fn min(comptime T: type, a: T, b:T) T {
+	if (a < b) {
 		return a;
 	}
 	return b;
 }
 
-fn add(comptime T: type, a: T, b: T) AddingError!T
-{
+fn add(comptime T: type, a: T, b: T) AddingError!T {
 	//We insert the type of the variable that we inserted
 	//The type is worked out at compile time and saved as the variable 'T'
 	//if we insert an i32, T = i32. So we can insert any integer type.
@@ -43,10 +37,8 @@ fn add(comptime T: type, a: T, b: T) AddingError!T
 }
 
 
-fn add_i8(a:i8, b:i8) AddingError!i8
-{
-	if (a + b > 127)
-	{
+fn add_i8(a:i8, b:i8) AddingError!i8 {
+	if (a + b > 127) {
 		return AddingError.Overflow;
 	}
 	return a + b;
@@ -54,14 +46,12 @@ fn add_i8(a:i8, b:i8) AddingError!i8
 
 
 
-fn printType(input: anytype) void
-{
+fn printType(input: anytype) void {
 	//the 'anytype' keyword simply works out the type of variable at compile time.
 	print("   type of variable is: {}\n",.{@TypeOf(input)});
 }
 
-fn showComptime() void
-{
+fn showComptime() void {
 	print("\nShowing comptime:\n\n",.{});
 	const number1_i8:i8 = 20;
 	const number2_i8:i8 = -10;
@@ -80,7 +70,7 @@ fn showComptime() void
 	const number2_u16:u16 = 10000;
 	//if we want to add these types we would need to make a function for each type.
 
-	//However we can use comptime to determine the type. Look at 'add' above	
+    //However we can use comptime to determine the type. Look at 'add' above
 	const addResult_i8 = add(i8, number1_i8, number2_i8) catch number1_i8;
 		print("   add i8 with add: {}\n", .{addResult_i8});
 		
@@ -137,8 +127,7 @@ fn showComptime() void
 	comptime var array_size = 1; 
 	var char_array: [array_size]u8 = undefined; //the first array will have one index
 	
-	inline for (0..array_size) |i| //inline for will simply write out each line for you
-	{
+	inline for (0..array_size) |i| { //inline for will simply write out each line for you
 		char_array[i] = STARTING_LETTER + i;
 	}
 	//'inline for' loop needs to be used with comptime variables.
@@ -146,24 +135,21 @@ fn showComptime() void
 	array_size += 1;
 	var char_array2: [array_size]u8 = undefined; //the second array will have two indexes
 	
-	inline for (0..array_size) |i|
-	{
+	inline for (0..array_size) |i| {
 		char_array2[i] = STARTING_LETTER + i;
 	}
 	
 	array_size += 1;
 	var char_array3: [array_size]u8 = undefined; //the third array has three indexes
 	
-	inline for (0..array_size) |i|
-	{
+	inline for (0..array_size) |i| {
 		char_array3[i] = STARTING_LETTER + i;
 	}
 	
 	array_size += 1;
 	var char_array4: [array_size]u8 = undefined; //the final array has 4
 	
-	inline for (0..array_size) |i|
-	{
+	inline for (0..array_size) |i| {
 		char_array4[i] = STARTING_LETTER + i;
 	}
 
@@ -174,7 +160,6 @@ fn showComptime() void
 }
 
 
-pub fn run() void
-{
+pub fn run() void {
 	showComptime();
 }

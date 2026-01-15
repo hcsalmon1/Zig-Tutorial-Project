@@ -17,17 +17,17 @@ const show_errors = @import("errors.zig");
 const openingFiles = @import("OpeningFiles.zig");
 const show_threading = @import("threading.zig");
 const show_optionals = @import("optionals.zig");
+const FsReader = std.fs.File.Reader;
+const IoReader = std.io.Reader;
 
-
-pub fn main() void
-{
+pub fn main() void {
 	//to run in windows open a powershell in the folder of these files. Shift + right click on an empty space in the folder.
 	//in the powershell type the command:
 	//'zig run main.zig'
 	
 	//Comment and uncomment these to see the code results of each section:
 	
-	show_functions.run();
+	//show_functions.run();
 	//show_variables.run();
 	//show_structs.run();
 	//show_branching.run();
@@ -44,12 +44,26 @@ pub fn main() void
 	//show_threading.run();
 	//show_optionals.run();
 
-	//This stops the program closing instantly until you press enter.
-	var user_input: [60]u8 = undefined; 
-	const stdin = std.io.getStdIn().reader();
-
-	print("Press enter to exit\n", .{}); 
-
-	const result: []const u8 = stdin.readUntilDelimiter(&user_input, '\n') catch "____"; 
-    _ = result;
+	pressEnter();
 }
+
+fn pressEnter() void {
+	//This stops the program closing instantly until you press enter.
+	print("Press Enter to exit\n", .{}); 
+
+	//This stops the program closing instantly until you press enter.
+	var user_input:[60]u8 = undefined; 
+	var stdin_reader:FsReader = std.fs.File.stdin().reader(&user_input);
+	const stdin:*IoReader = &stdin_reader.interface;
+
+	const line:[]u8 = stdin.takeDelimiterExclusive('\n') catch return;
+    _ = line;
+}
+
+	//var user_input: [60]u8 = undefined; 
+	//const stdin = std.io.getStdIn().reader();
+
+	//print("Press enter to exit\n", .{}); 
+
+	//const result: []const u8 = stdin.readUntilDelimiter(&user_input, '\n') catch "____"; 
+    //_ = result;

@@ -12,32 +12,30 @@ const ONE_SECOND = 1_000_000_000;
 
 
 //Threading syntax:
-//			create a thread:
-//			const thread = std.Thread.spawn
-//			(
-//				.{}, //spawnConfig, above my pay grade
-//				FUNCTION_NAME, //name of the function to run
-//				.{PARAMETERS}, //parameters to put into to the function
-//			) catch unreachable; //if there is an error making a thread do something...
+//  create a thread:
+//  const thread = std.Thread.spawn
+//  (
+//  .{}, //spawnConfig, above my pay grade
+//  FUNCTION_NAME, //name of the function to run
+//  .{PARAMETERS}, //parameters to put into to the function
+//  ) catch unreachable; //if there is an error making a thread do something...
 			
-//			thread.join();	- will pause the current function and wait for the thread to finish.
+//  thread.join(); - will pause the current function and wait for the thread to finish.
 
-//			mutexes:
-//			create a mutex:
-//			var mutex: std.Thread.Mutex = std.Thread.Mutex{};
-//			mutex.tryLock();	- sees if you can lock the mutex without blocking, returns a bool
-//			mutex.lock(); 		- locks the mutex so other threads can't access it
-//			mutex.unlock();		- frees the mutex
+//  mutexes:
+//  create a mutex:
+//  var mutex: std.Thread.Mutex = std.Thread.Mutex{};
+//  mutex.tryLock(); - sees if you can lock the mutex without blocking, returns a bool
+//  mutex.lock(); - locks the mutex so other threads can't access it
+//  mutex.unlock(); - frees the mutex
 
 
-pub fn run() void
-{
+pub fn run() void {
 	//simpleExample();
 	showMutex();
 }
 
-fn simpleExample() void
-{
+fn simpleExample() void {
 	{
 		
 		println("started thread 1");
@@ -45,7 +43,7 @@ fn simpleExample() void
 			.{}, //spawnConfig - leave it empty
 			count, //function to run
 			.{1} //the parameters to the function
-			) catch unreachable;
+		) catch unreachable;
 		
 		defer thread1.join();
 		
@@ -64,12 +62,10 @@ fn simpleExample() void
 	println("end function");
 }
 
-fn count(thread_index:u8) void
-{
+fn count(thread_index:u8) void {
 	//print("  thread {} started\n",.{thread_index});
 	var seconds_passed:u8 = 0;
-	for (0..thread_index) |_|
-	{
+	for (0..thread_index) |_| {
 		std.time.sleep(ONE_SECOND * 5);
 		seconds_passed += 1;
 		print("  thread {} {} seconds\n", .{thread_index, seconds_passed * 5});
@@ -80,8 +76,7 @@ fn count(thread_index:u8) void
 var count_mutex: Mutex = Mutex{};
 var call_count:u32 = 0;
 
-fn showMutex() void
-{
+fn showMutex() void {
 	{
 		
 		println("started thread 1");
@@ -106,20 +101,15 @@ fn showMutex() void
 	
 }
 
-fn countCalls(index:u32) void
-{
+fn countCalls(index:u32) void {
 	const LOOP_COUNT = index * 1000;
-	for (0..LOOP_COUNT) |_|
-	{
+	for (0..LOOP_COUNT) |_| {
 		const canLock:bool = count_mutex.tryLock();
 		
-		if (canLock == true) //the mutex can be acquired without interuption
-		{
+		if (canLock == true) { //the mutex can be acquired without interuption
 			defer count_mutex.unlock();
 			call_count += 1;
-		}
-		else
-		{
+		} else {
 			print("   Couldn't acquire lock mutex\n", .{});
 			count_mutex.lock();
 			defer count_mutex.unlock();

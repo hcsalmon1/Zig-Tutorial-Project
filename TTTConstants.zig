@@ -20,8 +20,7 @@ pub const O = 2;
 
 pub const PIECE_CHARACTERS = [3]u8 {'_', 'X', 'O'};
 
-pub const Squares = enum
-{
+pub const Squares = enum {
 	one, two, three, four, five, six, seven, eight, nine
 };
 

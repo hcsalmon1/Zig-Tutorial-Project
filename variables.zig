@@ -17,87 +17,84 @@ pub fn run() void
 }
 
 //Variable syntax:
-//			
-//			const number:i32 = 10;   	- makes a constant variable with 32 bits and sets it to 10
-//			var number:i32 = 15;		- makes a mutable variable with 32 bits and sets it to 15
-//			const number = 10;			- types are optional if the type is const
+//  const number:i32 = 10; - makes a constant variable with 32 bits and sets it to 10
+//  var number:i32 = 15;   - makes a mutable variable with 32 bits and sets it to 15
+//  const number = 10;     - types are optional if the type is const
 
 //Array syntax:
-//			const number_array:[5]u8 = [5]u8 {1,2,3,4,5};	- creates a constant array of 8 bit integers
-//			const number_array = [_]u8 {1,2,3,4,5};			- the type is optional and the length can be inferred
+//  const number_array:[5]u8 = [5]u8 {1,2,3,4,5}; - creates a constant array of 8 bit integers
+//  const number_array = [_]u8 {1,2,3,4,5};       - the type is optional and the length can be inferred
 
 //Slice syntax:
-//			const word:[]const u8 = "Hello";	- Creates a slice
+//  const word:[]const u8 = "Hello"; - Creates a slice
 
-//			const number_array = [_]i32 {1,2,3};
-//			const slice:[]const i32 = number_array[0..];	- creates a slice of the number array above
-//			const slice:[]const i32 = number_array[0..2];	- creates a slice of only the first two number in the number array
-//			[_] / [5]i32 	= array
-//			[]i32 			= mutable slice - you can change values at the indexes
-//			[]const i32		= constant slice
+//  const number_array = [_]i32 {1,2,3};
+//  const slice:[]const i32 = number_array[0..]; - creates a slice of the number array above
+//  const slice:[]const i32 = number_array[0..2]; - creates a slice of only the first two number in the number array
+//  [_] / [5]i32 = array
+//  []i32 = mutable slice - you can change values at the indexes
+//  []const i32 = constant slice
 
 
-fn printTypes() void
-{
+fn printTypes() void {
 	print("{}\n", .{@TypeOf("Hello")});
 }
 
-fn creatingVariables() void
-{
+fn creatingVariables() void {
 	print("   Creating Variables:\n", .{});
-    	//To create a variable you start with either 'const' or 'var'
-    	//const will make it constant and it won't be able to be changed.
-    	//You then write the name of the variable '=' then it's value.
-    	const number = 10;
-    	//The type will be inferred by the compiler if you don't specify
-    	//Zig will give you an error if you declare a variable and don't use it.
-    	//We use '_ = variable;' to show that we won't use a variable and we won't get an error.
-    	_ = number;
-	
+	//To create a variable you start with either 'const' or 'var'
+	//const will make it constant and it won't be able to be changed.
+	//You then write the name of the variable '=' then it's value.
+	const number = 10;
+	//The type will be inferred by the compiler if you don't specify
+	//Zig will give you an error if you declare a variable and don't use it.
+	//We use '_ = variable;' to show that we won't use a variable and we won't get an error.
+	_ = number;
+
 	//If we try to change the number we will get an error because it's constant.
-    	//number = 12; //uncomment to see error
+	//number = 12; //uncomment to see error
 
-    	//To create a mutable variable we use 'var'
-    	var number2:u8 = 12;
-    	//This variable can be changed:
-    	number2 = 13;
+	//To create a mutable variable we use 'var'
+	var number2:u8 = 12;
+	//This variable can be changed:
+	number2 = 13;
 
-    	//if you want to specify the type then use ':' then the type:
-    	const number3:i32 = 10;
-    
+	//if you want to specify the type then use ':' then the type:
+	const number3:i32 = 10;
+
 	print("   number2: {}\n", .{number2});
 
 	print("   number3: {}\n", .{number3});
 
-    	//if you create constant variable then you don't need to specify the type and it will be inferred
-    	//by the compiler. However you will need to specify the bit size if you create a mutable variable:
+	//if you create constant variable then you don't need to specify the type and it will be inferred
+	//by the compiler. However you will need to specify the bit size if you create a mutable variable:
 
-    	//var number4 = 12;
-    	//number4 = 13;  //uncomment to view error
+	//var number4 = 12;
+	//number4 = 13;  //uncomment to view error
 
-    	//these variables will all be stack variables and temporary
+	//these variables will all be stack variables and temporary
 }
 
-fn integerVariables() void
-{
+fn integerVariables() void {
+
 	print("\n   Integer Types:\n",.{});
-    	//integers are either signed or unsigned. A signed integer can go below zero
-    	//whereas an unsigned bit can only be positive.
+	//integers are either signed or unsigned. A signed integer can go below zero
+	//whereas an unsigned bit can only be positive.
 
-    	//Unsigned integers can normally be double the size of signed integers.
-    	//This is because in signed integers the last bit represents a plur or a minus.
+	//Unsigned integers can normally be double the size of signed integers.
+	//This is because in signed integers the last bit represents a plur or a minus.
 
-    	//Here are all the integer types:
-    	const number_i8: i8 = 120; //signed 8bit integer, min -128, max 127
-    	const number_U8: u8 = 200; //unsigned 8bit integer, min 0, max 255
-    	const number_i16: i16 = -10000; //signed 16bit integer, min -32768, max 32767
-    	const number_U16: u16 = 10000; //unsigned 16bit integer, min 0, max 65535
-    	const number_i32: i32 = -10000; //signed 32bit integer, min -2,147,483,648, max 2,147,483,647
-    	const number_U32: u32 = 10000; //unsigned 32bit integer, min 0, max 4,294,967,295
-    	const number_i64: i64 = -10000; //signed 64bit integer, min -9,223,372,036,854,775,808, max 9,223,372,036,854,775,807
-    	const number_U64: u64 = 10000; //unsigned 64bit integer, min 0, max 18,446,744,073,709,551,615
-    	const number_i128: i128 = -10000; //signed 128 bit integer
-    	const number_U128: u128 = 10000; //unsigned 128 bit integer
+	//Here are all the integer types:
+	const number_i8: i8 = 120; //signed 8bit integer, min -128, max 127
+	const number_U8: u8 = 200; //unsigned 8bit integer, min 0, max 255
+	const number_i16: i16 = -10000; //signed 16bit integer, min -32768, max 32767
+	const number_U16: u16 = 10000; //unsigned 16bit integer, min 0, max 65535
+	const number_i32: i32 = -10000; //signed 32bit integer, min -2,147,483,648, max 2,147,483,647
+	const number_U32: u32 = 10000; //unsigned 32bit integer, min 0, max 4,294,967,295
+	const number_i64: i64 = -10000; //signed 64bit integer, min -9,223,372,036,854,775,808, max 9,223,372,036,854,775,807
+	const number_U64: u64 = 10000; //unsigned 64bit integer, min 0, max 18,446,744,073,709,551,615
+	const number_i128: i128 = -10000; //signed 128 bit integer
+	const number_U128: u128 = 10000; //unsigned 128 bit integer
 
 	//Ignore this long print, I'm just print all the numbers above
 	print("   numberi8 type: {} value: {}\n   numberU8 type: {} value: {}\n   numberi16 type: {} value: {}\n   numberU16 type: {} value: {}\n   numberi32 type: {} value: {}\n   numberU32 type: {} value: {}\n   numberi64 type: {} value: {}\n   numberU64 type: {} value: {}\n   numberi128 type: {} value: {}\n   numberU128 type: {} value: {}\n", 
@@ -114,14 +111,14 @@ fn integerVariables() void
 		 @TypeOf(number_U128), number_U128
 	});
 
-    	//When creating a variable you can use underscores to increase reabability of big numbers:
-    	const long_number: u32 = 1_000_000_000;
-    	_ = long_number;
+	//When creating a variable you can use underscores to increase reabability of big numbers:
+	const long_number: u32 = 1_000_000_000;
+	_ = long_number;
 
-    	//You can actually make an integer of an arbitrary length if you need a specific max number.
+	//You can actually make an integer of an arbitrary length if you need a specific max number.
 
-    	const specific_number: u7 = 127; //this creates an integer with 7 bits. This will be from 0 to 127
-    	_ = specific_number;
+	const specific_number: u7 = 127; //this creates an integer with 7 bits. This will be from 0 to 127
+	_ = specific_number;
 
 	//There is a special kind of integer called a usize.
 	const index:usize = 0;
@@ -133,38 +130,38 @@ fn integerVariables() void
 
 }
 
-fn integerOverflows() void
-{
-    	print("\n   Integer Overflows:\n", .{});
+fn integerOverflows() void {
 
-    	//By default zig will throw an error if there is an integer overflow.
-    	//An overflow is where the value specified is above or below the possible value from the given bits.
-    	//for example:
+	print("\n   Integer Overflows:\n", .{});
 
-    	var unsigned_number: u8 = 255;
-    	print("   The value of unsignedNumber before: {}\n", .{unsigned_number});
-    	//A u8 has 8 bits, so the value goes from 0 to 255. If you go over or under this we will get an error:
+	//By default zig will throw an error if there is an integer overflow.
+	//An overflow is where the value specified is above or below the possible value from the given bits.
+	//for example:
 
-    	//number += 1; //uncomment to see
+	var unsigned_number: u8 = 255;
+	print("   The value of unsignedNumber before: {}\n", .{unsigned_number});
+	//A u8 has 8 bits, so the value goes from 0 to 255. If you go over or under this we will get an error:
 
-    	//There is a way to ignore overflows and that's to include the '%' symbol.
+	//number += 1; //uncomment to see
 
-    	unsigned_number +%= 1;
-    	print("   The value of unsignedNumber after adding 1: {}\n", .{unsigned_number});
+	//There is a way to ignore overflows and that's to include the '%' symbol.
 
-    	//When an integer overflows up all the bits will be flipped back to zero. So the integer will go to it's lowest value.
-    	//For an unsigned integer, it's zero. For a signed integer it is '(theMaxValue * -1) - 1'.
-    	//So the max value of an i8 is 127 so the lowest number is -128:
+	unsigned_number +%= 1;
+	print("   The value of unsignedNumber after adding 1: {}\n", .{unsigned_number});
 
-    	var signed_number: i8 = 127;
-    	print("   The value of signedNumber before: {}\n", .{signed_number});
+	//When an integer overflows up all the bits will be flipped back to zero. So the integer will go to it's lowest value.
+	//For an unsigned integer, it's zero. For a signed integer it is '(theMaxValue * -1) - 1'.
+	//So the max value of an i8 is 127 so the lowest number is -128:
 
-    	signed_number +%= 1;
-    	print("   The value of signedNumber after: {}\n", .{signed_number});
+	var signed_number: i8 = 127;
+	print("   The value of signedNumber before: {}\n", .{signed_number});
+
+	signed_number +%= 1;
+	print("   The value of signedNumber after: {}\n", .{signed_number});
 }
 
-fn creatingArrays() void
-{
+fn creatingArrays() void {
+
 	print("\nCreating arrays:\n\n",.{});
 	//We create arrays using square brackets
 	
@@ -173,8 +170,7 @@ fn creatingArrays() void
 	const number_array2 = [3]i32 {4, 5, 6};
 	//we can specify the size as well using a number.
 
-	for (0..3) |i|
-	{
+	for (0..3) |i| {
 		print("   First array: {} = {}\n", .{i, number_array[i]});
 		print("   Second array: {} = {}\n", .{i, number_array2[i]});
 	}
@@ -186,14 +182,12 @@ fn creatingArrays() void
 	//the array can't be constant if you do this
 	
 	var count : i32 = 0;
-	for	(0..3) |i|
-	{
+	for	(0..3) |i| {
 		undefined_array[i] = count; //setting the array index to equivalent of the index
 		count += 1;
 	}
 	
-	for (0..3) |i|
-	{
+	for (0..3) |i| {
 		print("   Undefined array: {} = {}\n", .{i, undefined_array[i]});
 	}
 	
@@ -206,27 +200,25 @@ fn creatingArrays() void
 	
 	//Multidimensional arrays can be defined like so
 	
-	const multi_dimensional_array = [3][3]i32
-	{
+	const multi_dimensional_array = [3][3]i32 {
 		[_]i32{0, 1, 2},
-        	[_]i32{3, 4, 5},
-        	[_]i32{6, 7, 8},
+        [_]i32{3, 4, 5},
+        [_]i32{6, 7, 8},
 	}; 
 	
 	print("\n\n   Multidimensional array:\n", .{});
 	
-	for (0..3) |x|
-	{
-		for (0..3) |y|
-		{
+	for (0..3) |x| {
+
+		for (0..3) |y| {
 			print("   x {} y {} value = {}\n", .{x, y, multi_dimensional_array[x][y]});
 		}
 	}
 	
 }
 
-fn optionalVariables() void
-{
+fn optionalVariables() void {
+
 	print("\nOptional Variables:\n", .{});
 	//Optional variables are variables that can be null or an unset value.
 	//Make something optional using a question mark '?'
@@ -235,40 +227,32 @@ fn optionalVariables() void
 	const value_to_find: i32 = 10; //the value we want to find in the array
 	const array_length: usize = data_array.len;
 	
-	for (0..array_length) |index|
-	{
-		if (data_array[index] == value_to_find)
-		{
+	for (0..array_length) |index| {
+
+		if (data_array[index] == value_to_find) {
 			found_index = index;
 		}
 	}
 	//we can't directly use an optional variable. We use this syntax to do so:
-	if (found_index) |converted_index| //if 'foundIndex' isn't null, store it in 'convertedIndex'
-	{
+	if (found_index) |converted_index| { //if 'foundIndex' isn't null, store it in 'convertedIndex'
 		print("   found index = {}\n", .{converted_index});
-	}
-	else
-	{
+	} else {
 		print("   Index wasn't found, the optional variable was null", .{});
 	}
 }
 
-fn convertToU32(input:i32) u32
-{
+fn convertToU32(input:i32) u32 {
 	const MAX_U32_VALUE: u32 = 4294967295;
-	if (input > MAX_U32_VALUE)
-	{
+	if (input > MAX_U32_VALUE) {
 		return 0; //it can't fit inside
-	}
-	if (input < 0)
-	{
+	} 
+	if (input < 0) {
 		return 0; //it can't fit inside
 	}
 	return @intCast(input);
 }
 
-fn convertingVariables() void
-{
+fn convertingVariables() void {
 	print("\nConverting Variables:\n", .{});
 	//We can convert types using '@as'
 	const number:i32 = 10;
@@ -278,7 +262,7 @@ fn convertingVariables() void
 	const negative_number:i32 = -1;
 	//This will give an error. -1 can't fit inside a u32
 	//const convertedNegativeNumber2:u32 = @as(u32, negativeNumber);
-	//print("converted negative number: {}\n", .{convertedNegativeNumber2});	
+	//print("converted negative number: {}\n", .{convertedNegativeNumber2});
 
 	//intCast is less safe and it will force the cast, so it could give you errors.
 	//The safest way to use this is to check the bounds yourself.
@@ -306,8 +290,8 @@ fn convertingVariables() void
 	//If the value is over the max value of the type you are converting to, then the extra bits will be removed.
 	
 	//Looking at the bits:
-	//randomNumber: 500 			= 00101111100000000000000000000000
-	//convertedRandomNumber: 244 	= 00101111
+	//randomNumber: 500             = 00101111100000000000000000000000
+	//convertedRandomNumber: 244    = 00101111
 
 	//the bit worth 256 was removed so 500 - 256 = 244
 	print("   Printing bits:\n", .{});
@@ -318,16 +302,14 @@ fn convertingVariables() void
 
 }
 
-fn showingFloats() void
-{
+fn showingFloats() void {
 	print("\nShowing floats:\n\n",.{});
 	floatTypes();
 	printFloats();
 	convertWeight();
 }
 
-fn floatTypes() void
-{
+fn floatTypes() void {
 	print("   Float Types:\n",.{});
 	//The float types
 	const decimal1:f16 = 1.1;
@@ -346,8 +328,7 @@ fn floatTypes() void
 		
 }
 
-fn printFloats() void
-{
+fn printFloats() void {
 	print("\n   Print float in decimal\n", .{});
 	//By default floats are printed in scientific notation
 	//So you will have an 'e0' at the end.
@@ -362,43 +343,44 @@ fn printFloats() void
 	
 }
 
-fn convertWeight() void
-{
+fn convertWeight() void {
+
 	print("\n   parsing floats from input:\n",.{});
 	//Here we will get input (number of pounds) from the user and parse it.
 	//Then we will convert it to kilograms
 	
 	const KGS_IN_A_POUND:f64 = 0.453592;
-	const stdout = std.io.getStdOut().writer();
-	const stdin = std.io.getStdIn().reader();
+	//const stdout = std.io.getStdOut().writer();
+
 	
 	//Get the allocator and reader
 	var buffer: [100]u8 = undefined; 
 	var fba = std.heap.FixedBufferAllocator.init(&buffer);
 	const fba_allocator = fba.allocator();
 
+	var stdin_reader = std.fs.File.stdin().reader(&buffer);
+	const stdin = &stdin_reader.interface;
+
 	//Get the input
 	print("   What is your weight in pounds?\n   ", .{});
-	const user_input = stdin.readUntilDelimiterAlloc(fba_allocator, '\n', 100,) catch "invalid input\n"; 
+	const user_input:[]u8 = stdin.takeDelimiterExclusive('\n') catch return;
 	defer fba_allocator.free(user_input);
 	
 	//Trim the input
 	const trimmed_input = std.mem.trim(u8, user_input, " \t\r\n");
 	
 	//parse the input to a float
-    	const weight_pounds = fmt.parseFloat(f64, trimmed_input) catch |err| 
-	{
-        	std.debug.print("   Error parsing float: {}\n", .{err});
-        	return;
-    	};
+    const weight_pounds = fmt.parseFloat(f64, trimmed_input) catch |err| {
+        std.debug.print("   Error parsing float: {}\n", .{err});
+        return;
+    };
 	
 	const KILOGRAM_CONVERSION:f64 = weight_pounds * KGS_IN_A_POUND;
 	
 	print("   {d:.2} pounds = {d:.6}kgs\n", .{weight_pounds, KILOGRAM_CONVERSION});
 }
 
-fn textVariables() void
-{
+fn textVariables() void {
 	print("\nText variables:\n\n",.{});
 	//The equivalent of a 'char' in c is a 'u8' in zig:
 	const letter:u8 = 'a';

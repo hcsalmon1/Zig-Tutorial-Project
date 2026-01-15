@@ -4,14 +4,12 @@ const tracking_allocator = @import("TrackingAllocator.zig");
 const TrackingAllocator = tracking_allocator.TrackingAllocator;
 const Allocator = std.mem.Allocator;
 
-const NodeI32 = struct
-{
+const NodeI32 = struct {
     data:i32,
     next_node:?*NodeI32,
 };
 
-fn createNodeI32(data:i32, allocation_tracker:*TrackingAllocator) *NodeI32
-{
+fn createNodeI32(data:i32, allocation_tracker:*TrackingAllocator) *NodeI32 {
     const node:*NodeI32 = allocation_tracker.debugCreate(NodeI32) catch unreachable;
     
     node.*.data = data;
@@ -19,29 +17,24 @@ fn createNodeI32(data:i32, allocation_tracker:*TrackingAllocator) *NodeI32
     return node;
 }
 
-fn createLinkedListI32() LinkedListI32
-{
-    return LinkedListI32 
-    {
+fn createLinkedListI32() LinkedListI32 {
+    return LinkedListI32 {
         .source_node = null,
         .length = 0,
     };
 }
 
-const LinkedListI32 = struct
-{
+const LinkedListI32 = struct {
 
     source_node:?*NodeI32,
     length:usize,
 
-    pub fn append(self:*LinkedListI32, data:i32, allocation_tracker:*TrackingAllocator) void
-    {
+    pub fn append(self:*LinkedListI32, data:i32, allocation_tracker:*TrackingAllocator) void {
         //Create the new node
         const newNode:*NodeI32 = createNodeI32(data, allocation_tracker);
 
         //if the first node is empty
-        if (self.source_node == null) 
-        {
+        if (self.source_node == null) {
             //set this as the first node
             self.source_node = newNode;
             self.length += 1;
@@ -52,8 +45,7 @@ const LinkedListI32 = struct
 
         //find the first node that's null
         var temp:?*NodeI32 = self.source_node;
-        while (temp.?.*.next_node != null) 
-        {
+        while (temp.?.*.next_node != null) {
             temp = temp.?.*.next_node;
         }
         //add the new node to the end of the list
@@ -61,14 +53,12 @@ const LinkedListI32 = struct
         self.length += 1;
     }
 
-    pub fn insert(self:*LinkedListI32, data:i32, position:usize, allocation_tracker:*TrackingAllocator) void
-    {
+    pub fn insert(self:*LinkedListI32, data:i32, position:usize, allocation_tracker:*TrackingAllocator) void {
         //Create the new node
         const newNode:*NodeI32 = createNodeI32(data, allocation_tracker);
 
         //if the position of the new node is the route
-        if (position == 0) 
-        {
+        if (position == 0) {
             //Set the next node of the new node to the original source node
             newNode.*.next_node = self.source_node;
             self.*.source_node = newNode;
@@ -79,27 +69,22 @@ const LinkedListI32 = struct
         //The temp node is used to increment through each element
         var temp:?*NodeI32 = self.source_node;
         var node_count:usize = 0;
-        while (true)
-        {
-            if (node_count > 100)
-            {
+        while (true) {
+            if (node_count > 100) {
                 std.debug.print("infinite loop stopped, insert\n",.{});
                 break;
             }
-            if (temp == null) 
-            {
+            if (temp == null) {
                 break;
             }
-            if (node_count >= position - 1)
-            {
+            if (node_count >= position - 1) {
                 break;
             }
             temp = temp.?.next_node;
             node_count += 1;
         }
 
-        if (temp == null) 
-        {
+        if (temp == null) {
             std.debug.print("Position out of bounds\n", .{});
             //delete newNode;
             return;
@@ -110,17 +95,14 @@ const LinkedListI32 = struct
         self.length += 1;
     }
 
-    fn remove(self:*LinkedListI32, data:i32, allocation_tracker:*TrackingAllocator) void
-    {
+    fn remove(self:*LinkedListI32, data:i32, allocation_tracker:*TrackingAllocator) void {
         //if the list is empty
-        if (self.source_node == null) 
-        {
+        if (self.source_node == null) {
             return;
         }
 
         //if the first node has the same data
-        if (self.source_node.?.*.data == data) 
-        {
+        if (self.source_node.?.*.data == data) {
             const temp:*NodeI32 = self.source_node.?;
             //Move the next node to his position
             self.source_node = self.source_node.?.next_node;
@@ -131,17 +113,14 @@ const LinkedListI32 = struct
 
         var temp:*NodeI32 = self.source_node.?;
         //if the next node isn't empty and the data doesn't match
-        while (true) 
-        {
+        while (true) {
             //If the next node is null then we didn't find the data
-            if (temp.*.next_node == null) 
-            {
+            if (temp.*.next_node == null) {
                 std.debug.print("Element not found",.{});
                 return;
             }
             //if the data matches, end the loop
-            if (temp.*.next_node.?.*.data == data)
-            {
+            if (temp.*.next_node.?.*.data == data) {
                 break;
             }
             //Look at the next node
@@ -156,22 +135,18 @@ const LinkedListI32 = struct
         self.length -= 1;
     }
 
-    fn remove_index(self:*LinkedListI32, index_to_delete:usize, allocation_tracker:*TrackingAllocator) void
-    {
+    fn remove_index(self:*LinkedListI32, index_to_delete:usize, allocation_tracker:*TrackingAllocator) void {
         //if the list is empty
-        if (self.source_node == null) 
-        {
+        if (self.source_node == null) {
             return;
         }
 
-        if (index_to_delete >= self.length)
-        {
+        if (index_to_delete >= self.length) {
             std.debug.print("Index: {}, out of range, length: {}\n", .{index_to_delete, self.length});
             return;
         }
 
-        if (index_to_delete == 0) 
-        {
+        if (index_to_delete == 0) {
             const temp:*NodeI32 = self.source_node.?;
             //Move the next node to his position
             self.source_node = self.source_node.?.next_node;
@@ -183,17 +158,14 @@ const LinkedListI32 = struct
         var temp:*NodeI32 = self.source_node.?;
         var index_count:usize = 1;
         //if the next node isn't empty and the data doesn't match
-        while (true) 
-        {
+        while (true) {
             //If the next node is null then we didn't find the data
-            if (temp.*.next_node == null) 
-            {
+            if (temp.*.next_node == null) {
                 std.debug.print("Index not found",.{});
                 return;
             }
             //if the data matches, end the loop
-            if (index_count == index_to_delete)
-            {
+            if (index_count == index_to_delete) {
                 break;
             }
             //Look at the next node
@@ -210,26 +182,21 @@ const LinkedListI32 = struct
 
     }
 
-    fn print(self:LinkedListI32) void
-    {
+    fn print(self:LinkedListI32) void {
         var temp:?*NodeI32 = self.source_node;
-        while (temp != null) 
-        {
+        while (temp != null) {
             std.debug.print("{} -> ",.{temp.?.*.data});
             temp = temp.?.*.next_node;
         }
         std.debug.print("null\n", .{});
     }
 
-    fn printLength(self:LinkedListI32) void
-    {
+    fn printLength(self:LinkedListI32) void {
         std.debug.print("Length: {}\n",.{self.length});
     }
 
-    fn clear(self:*LinkedListI32, allocation_tracker:*TrackingAllocator) void 
-    {
-        while (self.*.source_node != null) 
-        {
+    fn clear(self:*LinkedListI32, allocation_tracker:*TrackingAllocator) void {
+        while (self.*.source_node != null) {
             const temp:?*NodeI32 = self.*.source_node;
             self.*.source_node = self.*.source_node.?.*.next_node;
             allocation_tracker.debugDestroy(NodeI32, temp.?);
@@ -239,8 +206,7 @@ const LinkedListI32 = struct
 };
 
 
-pub fn testList() void
-{
+pub fn testList() void {
 
     var general_purpose_allocator = GeneralPurposeAllocator(.{}){};
     var gpa_allocator:Allocator = general_purpose_allocator.allocator();
@@ -249,8 +215,7 @@ pub fn testList() void
     testLinkedListI32(&allocation_tracker);
 }
 
-fn testLinkedListI32(allocation_tracker:*TrackingAllocator) void
-{
+fn testLinkedListI32(allocation_tracker:*TrackingAllocator) void {
     var list: LinkedListI32 = createLinkedListI32();
     defer list.clear(allocation_tracker);
     list.append(1, allocation_tracker);

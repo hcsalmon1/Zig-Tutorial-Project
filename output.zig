@@ -6,8 +6,7 @@ const std = @import("std");
 //to make calling print easier create this constant function copy
 const print = std.debug.print;
 
-pub fn run() void
-{
+pub fn run() void {
     print("\nOutput tutorial:\n\n", .{});
     debugPrint();
     regularPrint();
@@ -16,8 +15,7 @@ pub fn run() void
 }
 
 
-fn debugPrint() void
-{
+fn debugPrint() void {
     print("Debug Print:\n", .{});
     //debug.print allows you to print without a variable
 
@@ -48,20 +46,21 @@ fn debugPrint() void
 
 }
 
-fn regularPrint() void
-{
+fn regularPrint() void {
     print("\nRegular Print:\n", .{});
     //To print you need to get a variable from the standard library:
-    const stdout = std.io.getStdOut().writer();
+    var stdout_buffer:[1024]u8 = undefined;
+    var stdout_writer:std.fs.File.Writer = std.fs.File.stdout().writer(&stdout_buffer);
+    const stdout:*std.Io.Writer = &stdout_writer.interface;
     // you then use this to print same as debug:
     stdout.print("   Hello, world!\n", .{}) catch {};
+    stdout.flush() catch return;
 
     //You will need to include this in every function where you wish to write this way. I'm unaware
     //of a way to make it global but you can send it to a function.
 }
 
-fn printCharacter(character_input: u8) void
-{
+fn printCharacter(character_input: u8) void {
     print("\nPrint Character:\n", .{});
     //This prints a character as text
     print("   character is '{c}'\n", .{character_input});
@@ -69,8 +68,7 @@ fn printCharacter(character_input: u8) void
     print("   character value is '{}'\n", .{character_input});
 }
 
-fn printSlice(input: []const u8) void
-{
+fn printSlice(input: []const u8) void {
     print("\nPrint Slice:\n", .{});
 
     //This function takes in an array of characters that we want to print.
@@ -96,24 +94,18 @@ fn printSlice(input: []const u8) void
 
     //You can then use bounds checking:
     const second_index:usize = 12;
-    if (second_index >= input_length)
-    {
+    if (second_index >= input_length) {
         print("   index is out of range of slice: {}, array length {}\n", .{second_index, input_length});
-    }
-    else if (second_index < 0)
-    {
+    } else if (second_index < 0) {
         print("   index is out of range of slice: {}, array length {}\n", .{second_index, input_length});
-    }
-    else
-    {
+    } else {
         //if it is inbounds we then use the second Index to create the slice
         const desired_slice = input[0..second_index];
         print("   The slice is {s}", .{desired_slice});
     }
 
     //The alternative to slices is to print with loops:
-    if (input_length != 0)
-    {
+    if (input_length != 0) {
         print("   Individually printing characters: ", .{});
         //we loop through each element
         for (0..input_length) |i|
@@ -133,16 +125,12 @@ fn printSlice(input: []const u8) void
     //to print a slice of number you use {d} or {any} instead of {s}
 }
 
-fn PrintVariable(comptime unknownType: type, input: unknownType) !void
-{
+fn PrintVariable(comptime unknownType: type, input: unknownType) !void {
 	const word = "   Hello";
-	if (@TypeOf(input) == @TypeOf(word))
-	{
+	if (@TypeOf(input) == @TypeOf(word)) {
 		const slice = input[0..];
 		print("   {s}\n", .{slice});
-	}
-	else
-	{
+	} else {
 		print("   {}\n", .{input});
 	}
 }
