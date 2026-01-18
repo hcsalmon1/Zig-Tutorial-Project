@@ -67,7 +67,7 @@ fn creatingVariables() void {
 	print("   number3: {}\n", .{number3});
 
 	//if you create constant variable then you don't need to specify the type and it will be inferred
-	//by the compiler. However you will need to specify the bit size if you create a mutable variable:
+	//by the compiler. However you will need to specify the bit size if you create a mutable variable, when using an integer litaral:
 
 	//var number4 = 12;
 	//number4 = 13;  //uncomment to view error
