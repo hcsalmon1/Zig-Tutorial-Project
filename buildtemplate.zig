@@ -6,7 +6,7 @@ pub fn build(_build: *std.Build) void {
     const optimize = _build.standardOptimizeOption(.{});
 
     const exe = _build.addExecutable(.{
-        .name = "Name",
+        .name = "Name", //change the name
         .root_module = _build.createModule(.{
             .root_source_file = _build.path("src/main.zig"),
             .target = target,
@@ -27,3 +27,4 @@ pub fn build(_build: *std.Build) void {
         run_cmd.addArgs(args);
     }
 }
+
