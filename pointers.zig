@@ -62,7 +62,7 @@ fn showingPointers() void {
 	//Zig has different types of pointers
 	const constNumber:i32 = 10;
 	const numberPointer: *const i32 = &constNumber;
-	//This is a constant pointer and can't be changed. The value is it pointing to also can't be changed.
+	//This is a constant pointer and can't be changed. The value it is pointing to also can't be changed.
 	
 	//This gives an error because you can't point to a constant variable with
 	//a pointer that isn't constant:
@@ -218,4 +218,5 @@ fn pointingToObjects() void {
 	//So most of the time you should use slices.
 	//They are safer, as they have the length includes, can use for loop and are smaller.
 }
+
 
