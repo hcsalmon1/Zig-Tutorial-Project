@@ -10,7 +10,7 @@ pub fn run() void {
 
 //ArrayList Syntax:
 
-//  var list = std.ArrayList('TYPE').init('ALLOCATOR'); - create the arrayList
+//  var list = std.ArrayList('TYPE').initCapacity('ALLOCATOR', 0); - create the arrayList
 //  list.deinit(); - destroys the arrayList
 //  list.append('TYPE'); - adds to list
 //  list.items[0] - gets the first index of the list
@@ -175,4 +175,5 @@ fn calculateAndPrintDistance(journey_list: *ArrayList(Location)) void {
 
 	print("   total distance: {d:.3}\n",.{totalDistance});
 	
+
 }
