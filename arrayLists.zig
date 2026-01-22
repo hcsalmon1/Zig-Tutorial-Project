@@ -123,7 +123,7 @@ fn showingArrayList() void {
 	//In this example I create a list of locations and count the total distance going through all of them.
 
 	//We get the general purpose allocator
-	var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+	var gpa = std.heap.DebugAllocator(.{}){};
     const gpa_allocator = gpa.allocator();
 	
 	//We create the array list using the allocator
@@ -177,3 +177,4 @@ fn calculateAndPrintDistance(journey_list: *ArrayList(Location)) void {
 	
 
 }
+
