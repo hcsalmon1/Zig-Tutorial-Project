@@ -162,7 +162,7 @@ fn calculateAndPrintDistance(journey_list: *ArrayList(Location)) void {
 		const position_a:Vector3 = journey_list.items[index].position;
 		const position_b:Vector3 = journey_list.items[NEXT_INDEX].position;
 		
-		const distance_between_points = getDistance(position_a,position_b); //We get the distance between points
+		const distance_between_points:f64 = getDistance(position_a,position_b); //We get the distance between points
 		
 		totalDistance += distance_between_points;
 		print("   {s} to {s}, distance: {d:.3}\n", 
@@ -177,4 +177,5 @@ fn calculateAndPrintDistance(journey_list: *ArrayList(Location)) void {
 	
 
 }
+
 
